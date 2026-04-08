@@ -7,10 +7,11 @@ Returns verbatim text — the actual words, never summaries.
 """
 
 import logging
-import sys
 from pathlib import Path
 
 from .palace import get_collection
+
+from mempalace.output import safe_separator
 
 logger = logging.getLogger("mempalace_mcp")
 
@@ -31,17 +32,7 @@ def build_where_filter(wing: str = None, room: str = None) -> dict:
 
 
 def _separator_line(width: int = 56) -> str:
-    """
-    Return a separator line safe for the active stdout encoding.
-
-    Windows cp1252 terminals cannot encode the Unicode box-drawing char.
-    """
-    encoding = getattr(sys.stdout, "encoding", None) or "utf-8"
-    try:
-        "─".encode(encoding)
-        return "─" * width
-    except Exception:
-        return "-" * width
+    return safe_separator(width)
 
 
 def search(query: str, palace_path: str, wing: str = None, room: str = None, n_results: int = 5):
