@@ -80,7 +80,7 @@ def _iter_metadatas(col, where=None):
             "limit": _TAXONOMY_BATCH,
             "offset": offset,
         }
-        if where:
+        if where is not None:
             kwargs["where"] = where
         try:
             batch = col.get(**kwargs)
@@ -108,15 +108,18 @@ def tool_status():
     count = col.count()
     wings = {}
     rooms = {}
+    total_from_meta = 0
     for m in _iter_metadatas(col):
         w = m.get("wing", "unknown")
         r = m.get("room", "unknown")
         wings[w] = wings.get(w, 0) + 1
         rooms[r] = rooms.get(r, 0) + 1
+        total_from_meta += 1
     return {
         "total_drawers": count,
         "wings": wings,
         "rooms": rooms,
+        "partial": total_from_meta < count,
         "palace_path": _config.palace_path,
         "protocol": PALACE_PROTOCOL,
         "aaak_dialect": AAAK_SPEC,
