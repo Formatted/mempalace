@@ -11,7 +11,7 @@ from pathlib import Path
 
 from .palace import get_collection
 
-from mempalace.output import safe_separator
+from .output import safe_separator
 
 logger = logging.getLogger("mempalace_mcp")
 
@@ -30,9 +30,6 @@ def build_where_filter(wing: str = None, room: str = None) -> dict:
         return {"room": room}
     return {}
 
-
-def _separator_line(width: int = 56) -> str:
-    return safe_separator(width)
 
 
 def search(query: str, palace_path: str, wing: str = None, room: str = None, n_results: int = 5):
@@ -79,7 +76,7 @@ def search(query: str, palace_path: str, wing: str = None, room: str = None, n_r
     if room:
         print(f"  Room: {room}")
     print(f"{'=' * 60}\n")
-    separator = _separator_line()
+    separator = safe_separator()
 
     for i, (doc, meta, dist) in enumerate(zip(docs, metas, dists), 1):
         similarity = round(max(0.0, 1 - dist), 3)

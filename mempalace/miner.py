@@ -17,7 +17,7 @@ from collections import defaultdict
 
 from .palace import SKIP_DIRS, get_collection, file_already_mined
 
-from mempalace.output import safe_separator
+from .output import safe_separator
 
 READABLE_EXTENSIONS = {
     ".txt",
